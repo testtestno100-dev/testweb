@@ -1,0 +1,658 @@
+html {
+    scroll-behavior: smooth;
+  }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+header {
+    position: fixed;
+    width: 100%;
+    height: 60px;
+    background-color: #000000;
+    z-index: 2;
+  }
+header h1 {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-200%) translateY(-50%);
+    color: rgb(199, 199, 199);
+    font-size: 24px;
+    margin: 0;
+  }
+.rule {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    background-color: transparent;
+    color: rgb(123, 123, 123);
+    border: none;
+    cursor: pointer;
+    z-index: 999;
+  }
+  nav ul {
+    display: flex;          /* 讓選單變成橫排 */
+    list-style: none;       /* 移除黑色圓點 */
+    gap: 20px;              /* 選單項目的間距 */
+    margin: 0;
+    padding: 0;
+    left: 50%;
+    top: 50%;
+    transform: translateX(50%) translateY(70%);
+  }
+  nav a {
+    color: rgb(155, 154, 154);           /* 改變連結文字顏色 */
+    text-decoration: none;  /* 移除下底線 */
+  }
+  .firstsee {
+    /* background-color: antiquewhite; */
+    height: 900px;
+    padding: 20px;
+    position: flex;
+  }
+  .firstsee::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 150%;
+  /* 用 linear-gradient 在背景圖上方直接疊加半透明黑色 */
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+    url('hollowtestig.jpeg');
+  background-size: cover;
+  background-position: center;
+  /* 讓偽元素層級為 0，並確保內容層級高於它 */
+  z-index: -1;
+  }
+  .chatgroup {
+  width: 100%;
+  top: 100px;
+  max-width: 450px;
+  height: 600px;
+  margin: 0 auto;
+  border-radius: 16px;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  backdrop-filter: blur(4px);/* 霧面毛玻璃模糊效果 */
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);/* 微光邊框 */
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  background-color: transparent;
+  overflow: hidden;
+  font-family: sans-serif;
+}
+/*聊天室拉桿*/
+.chat-body::-webkit-scrollbar {
+  width: 6px; /* 原本大約 16px，改成 6px 精緻許多 */
+}
+/* 2. 捲動條軌道（背景） */
+.chat-body::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05); /* 極淡半透明背景 */
+  border-radius: 10px;
+}
+/* 3. 捲動條拉桿本體 */
+.chat-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25); /* 半透明白色 */
+  border-radius: 10px; /* 圓角效果 */
+  transition: background 0.3s ease;
+}
+/* 4. 滑鼠懸停時拉桿加亮 */
+.chat-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5); /* 移上去時變亮 */
+}
+
+/* 1. 頂部公告欄 */
+.bar {
+  background-color: transparent;
+  color: #856404;
+  padding: 10px 15px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+.announce-badge {
+  background-color: transparent;
+  color: #dfdfdf;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* 2. 聊天訊息區 */
+.chat-body {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.25) rgba(255, 255, 255, 0.05);
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* 共通對話列（其他人） */
+.message-row {
+  display: flex;
+  gap: 10px;
+  max-width: 80%;
+}
+
+.user-name {
+  font-size: 12px;
+  color: #bbbbbb;
+  margin-bottom: 3px;
+}
+.bubble {
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+/* 主吧 吧備樣式 */
+.bossmessage,.employee {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 3px 15px;
+  box-sizing: border-box;
+}
+.bossmessage .bubble ,.employee .bubble {
+  /* background-color: #000000; */
+  background-color: transparent;
+  color: #ffd700;
+  border: 1px solid #ffd700;
+  display: inline-block;
+}
+/* 其他客人樣式*/
+.otherwords .bubble {
+  background: rgba(120, 120, 120, 0.4);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  box-sizing: border-box;
+  display: inline-block;
+  border-bottom-right-radius: 12px;
+  border-bottom-left-radius: 4px;
+}
+
+/* 自己發送的訊息 (右下) */
+.mywords {
+  align-self: flex-end; /* 靠右對齊 */
+  justify-content: flex-end;
+}
+.mywords .bubble {
+  background: rgba(110, 131, 213, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(195, 205, 250, 0.5);
+  border-bottom-right-radius: 4px; /* 右下角圓角縮小 */
+  border-bottom-left-radius: 12px; /* 左下角圓角 */
+  color: #ffffff;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* 3. 下方輸入框 */
+.chat-footer {
+  display: flex;
+  padding: 10px;
+  background-color: transparent;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  gap: 8px;
+}
+.chat-footer input:focus {
+  border-color: #ffd700; /* 聚焦時的邊框顏色 */
+}
+.remywords {
+  color: #ffffff;
+}
+.chat-footer input {
+  flex: 1;
+  padding: 10px;
+  background-color: transparent;
+  border:  1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  outline: none;
+}
+.chat-footer button {
+  padding: 8px 16px;
+  background-color: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  cursor: pointer;
+} 
+/*鬼裝飾*/
+.spooky-decoration {
+    position: absolute;                   
+    width: 180px;        /* 依圖案大小調整 */
+    pointer-events: none; /* 讓滑鼠點擊穿透，不影響後方操作 */
+    z-index: -1;
+    opacity: 0.25;/*透明度0-1*/
+    animation: figureEightFlip 12s ease-in-out infinite;
+}
+.wow-decoration {
+    position: absolute; 
+    width: 90px;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.2;/*透明度0-1*/
+   animation: float 3s ease-in-out infinite;
+}
+.woow-decoration {
+    position: absolute; 
+    width: 120px;  
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.15;/*透明度0-1*/
+   animation: updown 8s ease-in-out infinite;
+}
+.oh-decoration {
+    position: absolute;             
+    width: 150px;    
+    pointer-events: none; 
+    z-index: -1;
+    opacity: 0.2;/*透明度0-1*/
+    animation: figureEight 6s ease-in-out infinite;
+}
+.worring-decoration {
+    position: absolute;
+    width: 120px;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.25;
+    animation: leftaction 10s ease-in-out infinite;
+}
+/*本體*/
+.introduction {
+    height: 700px;
+    position: relative;
+    padding: 20px;
+    background-image: url('萬聖背景圖.png');
+    background-size: cover;
+    background-position: center;
+    color: rgb(255, 255, 255);
+}
+.introduction h2 {
+    text-align: center;
+    margin-top: 150px;
+    font-size: 3.5rem;
+    font-weight: bold;
+}
+.introduction p {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 20px;
+    font-weight: bold;
+}
+.about {
+    height: 1550px;
+    position: relative;
+    padding: 20px;
+    background: linear-gradient(to bottom, #3f0202, #100505);
+    color: rgb(255, 255, 255);
+}
+.about h2 {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 3.5rem;
+    font-weight: bold;
+}
+.about p {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 15px;
+}
+/* 分隔 */
+.about-image {
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 20px;
+  gap: 24px;
+}
+/* 框 */
+.image-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: rgba(255, 255, 255, 0.08); /* 半透明白色底 */
+  backdrop-filter: blur(12px);             /* 核心：毛玻璃模糊效果 */
+  -webkit-backdrop-filter: blur(12px);     /* 支援 Safari */
+  border: 1px solid rgba(255, 255, 255, 0.15); /* 細緻玻璃邊框 */
+  border-radius: 16px;                     /* 圓角 */
+  padding: 30px 20px;                      /* 內距 */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* 柔和陰影 */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* 浮動過場動畫 */
+}
+/* 懸浮 */
+.image-container:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.3); /* 懸停時邊框稍微發光 */
+}
+.pngtalk p{
+  flex: 1;
+  text-align: left;
+  margin-top: 0;
+  font-size: 1.25rem;
+}
+.pngtalk{
+  transform: none;
+}
+.playname{
+  margin-top: 0;
+  font-size: 0.7rem;
+}
+.pngtalk a{
+  color: rgba(241, 229, 59, 0.4);
+  text-decoration: underline;
+  text-decoration-color: rgba(243, 222, 105, 0.4);
+  text-underline-offset: 4px;
+}
+.pngtalk .mochitalk{
+  font-size: 0.5rem;
+  color: rgba(132, 129, 129, 0.6);
+}
+.pngtalk .watalk{
+  font-size: 0.5rem;
+  color: rgba(178, 178, 178, 0.2);
+}
+.pngtalk .qutalk{
+  font-size: 0.5rem;
+  color: rgba(178, 178, 178, 0.1);
+}
+/* 圖片容器 */
+.logopng,.winepng, .shotrpng, .humanpng, .playpng, .chapng{
+  width: 100px;
+  height: auto;
+  flex-shrink: 0; /* 防止圖片在小螢幕被壓縮 */
+}
+
+/*上下飄*/
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-60px); }
+}
+
+@keyframes updown {
+    0% { transform: translate(0px, 0px); }
+    12.25% { transform: translate(-25px, -25px); }
+    25% { transform: translate(-50px, 0px); }
+    37.5% { transform: translate(-25px, 25px); }
+    50% { transform: translate(-50px, -25px); }
+    62.5% { transform: translate(-25px, 0px); }
+    75% { transform: translate(0px, 25px); }
+    87.5% { transform: translate(25px, -25px); }
+    100% { transform: translate(0px, 0px); }
+}
+
+/*左右*/
+@keyframes leftaction {
+    0% { transform: translateX(0px)scaleX(1); }
+
+    50% { transform: translateX(-200px)scaleX(1); }
+    
+    75% { transform: translateX(-200px)scaleX(-1); }
+    
+    100% { transform: translateX(0px)scaleX(-1); }
+}
+
+/*面向一八字飄*/
+@keyframes figureEightFlip {
+  0% { transform: translate(0px, 0px) scaleX(-1);}
+
+  12.5% { transform: translate(40px, -25px) scaleX(-1);}
+  
+  25% { transform: translate(60px, 0px) scaleX(-1);}
+  
+  37.5% { transform: translate(40px, 25px) scaleX(1);}
+  
+  50% { transform: translate(0px, 0px) scaleX(1);}
+  
+  62.5% { transform: translate(-40px, -25px) scaleX(1);}
+  
+  75% { transform: translate(-60px, 0px) scaleX(1);}
+  
+  87.5% { transform: translate(-40px, 25px) scaleX(-1);}
+  
+  100% { transform: translate(0px, 0px) scaleX(-1);}
+}
+
+/*面向二八字飄*/
+@keyframes figureEight {
+  0% {transform: translate(0px, 0px) scaleX(1);}
+  
+  12.5% {transform: translate(40px, -25px) scaleX(1);}
+  
+  25% {transform: translate(60px, 0px) scaleX(1);}
+  
+  37.5% {transform: translate(40px, 25px) scaleX(-1);}
+  
+  50% {transform: translate(0px, 0px) scaleX(-1);}
+  
+  62.5% {transform: translate(-40px, -25px) scaleX(-1);}
+  
+  75% {transform: translate(-60px, 0px) scaleX(-1); }
+  
+  87.5% {transform: translate(-40px, 25px) scaleX(1);}
+  
+  100% {transform: translate(0px, 0px) scaleX(1);}
+}
+
+.animate-fade-in-up {
+  opacity: 0;
+  transform: translateY(30px); /* 剛開始往下掉 30px */
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* 動畫持續時間與緩動 */
+}
+.animate-fade-in-up.active {
+  opacity: 1;
+  transform: translateY(0px); /* 回到原本位置並顯現 */
+}
+  footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #000000;
+    color: rgb(67, 67, 67);
+  }
+  .social-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* 左右兩項之間的距離，可自行調整 */
+  flex-wrap: wrap; /* 螢幕太小時會自動換行，保持 RWD 手機友善 */
+  margin-top: 5px;
+}
+.social-link{
+  text-decoration: underline;
+}
+  /**/
+  .menu {
+    display: none;
+  }
+  .remove {
+    display: none;
+  }
+  .items {
+    display: none;
+  }
+  .model-over {
+    display: none;
+  }
+  @media (max-width: 768px) {
+    header {
+      position: relative;
+    }
+    header h1{
+      left: 50%; 
+      transform: translateX(-50%) translateY(-50%);
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .firstsee {
+      height: 840px;
+    }
+    .bigmenu {
+      display: none;
+    }
+    .menu {
+      display: block;
+      background-color: transparent;
+      color: rgb(161, 161, 161);
+      font-size: 35px;
+      position: absolute;
+      top: 5px;
+      left: 10px;
+      border: none;
+      cursor: pointer;
+      z-index: 998;
+      pointer-events: auto; 
+    }
+    .remove {
+      display: block;
+      background-color: transparent;
+      color: rgb(162, 162, 162);
+      font-size: 35px;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      border: none;
+      cursor: pointer;
+      z-index: 1002;
+    }
+    .items {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100vh;
+      background-color: #1a1a1a;
+      transition: left 0.4s ease;
+      box-sizing: border-box;
+      z-index: 999;
+      padding: 60px;
+    }
+    .items ul {
+      display: flex !important;
+      flex-direction: column;
+      top: 50%;
+      margin-top: 20px;
+      gap: 20px;
+      transform: translateX(20%);
+    }
+    .items li a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+    .items.show {
+      left: 0 !important;
+    }
+    .about {
+      height: 800px;
+    }
+    .about-image {
+    grid-template-columns: repeat(3, 1fr);
+  }
+    /* .about-image:active{
+    transform: scale(0.95);
+    } */
+  .logopng,.winepng, .shotrpng, .humanpng, .playpng, .chapng{
+    width: 100px;
+  }
+  .pngtalk p, .playname, .pngtalk a{
+    display: none;
+  }
+  /* model */
+  .model-over{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(76, 35, 35, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  padding: 20px;
+  }
+  .model-over.active {
+  opacity: 1;
+  visibility: visible;
+  }
+  .model-content {
+  background: rgba(35, 15, 20, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 28px 20px 24px;
+  width: 90%;
+  max-width: 360px;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  transform: scale(0.85);
+  transition: transform 0.3s ease;
+  text-align: center;
+  color: #fff;
+  }
+
+  .model-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 28px;
+  cursor: pointer;
+  line-height: 1;
+  z-index: 120;
+  }
+  .model-close:hover {
+    background: rgba(55, 50, 50, 0.3);
+  }
+  .model-body img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  margin: 10px auto 16px;
+  display: block;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
+  }
+  .model-body h3 {
+  margin: 0 0 10px;
+  font-size: 1.35rem;
+  color: #e18c3b;
+  }
+  .model-body p {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.88);
+  }
+  .model-link{
+    font-size: 1rem;
+    color: rgba(188, 170, 89, 0.7);
+    text-decoration: underline;
+    text-decoration-color: rgba(243, 222, 105, 0.4);
+    text-underline-offset: 4px;
+
+  }
+}

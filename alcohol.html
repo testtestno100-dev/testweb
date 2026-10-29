@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>夜色微醺：深夜特調心理測驗</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #040508;
+            color: #E2E8F0;
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .font-serif-tc {
+            font-family: 'Noto Serif TC', serif;
+        }
+        
+        .glass-card {
+            background: rgba(18, 22, 33, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(212, 175, 55, 0.12);
+        }
+
+        .glass-card-interactive {
+            background: rgba(22, 27, 40, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card-interactive:active {
+            transform: scale(0.98);
+            background: rgba(212, 175, 55, 0.12);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .glass-card-interactive.selected {
+            background: rgba(212, 175, 55, 0.15);
+            border-color: rgba(212, 175, 55, 0.5);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FFF6D6 0%, #F3E5AB 30%, #D4AF37 70%, #AA7C11 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+
+        .gold-button {
+            background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+            color: #06070a;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .gold-button:active {
+            transform: scale(0.96);
+            box-shadow: 0 2px 10px rgba(212, 175, 55, 0.1);
+        }
+
+        .custom-input {
+            background: rgba(15, 18, 28, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            color: #F3E5AB;
+            transition: all 0.3s ease;
+        }
+
+        .custom-input:focus {
+            outline: none;
+            border-color: rgba(212, 175, 55, 0.7);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+            background: rgba(20, 25, 38, 0.9);
+        }
+
+        .custom-input::placeholder {
+            color: rgba(226, 232, 240, 0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-0 md:p-4 bg-[#040508] text-slate-200">
+
+    <!-- 手機容器（Mobile-First Container） -->
+    <div class="w-full max-w-md min-h-screen md:min-h-[844px] md:max-h-[900px] bg-[#06070a] relative flex flex-col justify-between overflow-hidden md:rounded-[36px] md:border md:border-amber-500/15 md:shadow-2xl md:shadow-amber-950/20">
+
+        <!-- 深夜背景微光氛圍 (Background Glows) -->
+        <div class="absolute -top-32 -left-32 w-80 h-80 bg-amber-600/10 rounded-full blur-[100px] pointer-events-none"></div>
+        <div class="absolute top-1/2 -right-32 w-80 h-80 bg-indigo-900/15 rounded-full blur-[100px] pointer-events-none"></div>
+        <div class="absolute -bottom-32 -left-16 w-80 h-80 bg-yellow-900/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <!-- 頁眉 Header (只在測驗中顯示) -->
+        <header id="quiz-header" class="hidden relative z-20 pt-6 px-6 pb-2 flex items-center justify-between">
+            <button id="btn-back" onclick="prevQuestion()" class="flex items-center gap-1.5 text-xs text-slate-400 hover:text-amber-200/80 transition-colors py-2 px-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+                <span id="back-text">上一題</span>
+            </button>
+            
+            <div class="flex items-center gap-2">
+                <div class="w-24 bg-slate-800/80 h-1.5 rounded-full overflow-hidden border border-white/5">
+                    <div id="progress-bar" class="bg-gradient-to-r from-amber-500 to-amber-200 h-full w-1/4 transition-all duration-500"></div>
+                </div>
+                <span id="progress-text" class="text-[11px] font-mono tracking-widest text-amber-300/70">1/4</span>
+            </div>
+        </header>
+
+        <!-- 主要內容區 Main Content Container -->
+        <main class="relative z-10 flex-1 flex flex-col justify-center px-6 py-6 overflow-y-auto">
+
+            <!-- 1. 封面區 (Cover Page) -->
+            <section id="page-cover" class="flex flex-col items-center justify-between min-h-full py-4 text-center">
+                <div class="my-auto w-full flex flex-col items-center">
+                    <!-- 裝飾微光圖示 -->
+                    <div class="w-12 h-12 mb-6 rounded-full glass-card flex items-center justify-center border border-amber-500/20">
+                        <svg class="w-5 h-5 text-amber-300/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+
+                    <!-- 主標題 -->
+                    <h1 class="font-serif-tc text-3xl font-light tracking-widest text-slate-100 mb-3 leading-relaxed">
+                        夜 色 微 醺
+                    </h1>
+                    <p class="text-xs font-serif-tc tracking-[0.3em] text-amber-400/80 uppercase mb-8">
+                        — 深 夜 特 調 心 理 測 驗 —
+                    </p>
+
+                    <!-- 介紹語 -->
+                    <p class="text-xs text-slate-400 font-light leading-relaxed tracking-wider max-w-[260px] mb-8">
+                        當喧囂沉寂，城市的燈火微弱成光點。<br>
+                        踏入這間無人之夜酒吧，<br>
+                        順從內心尋找一杯屬於你今夜性格的特調。
+                    </p>
+
+                    <!-- 客製化命名輸入框 -->
+                    <div class="w-full max-w-[280px] mb-8 flex flex-col items-center">
+                        <p class="text-[11px] font-serif-tc text-amber-200/60 tracking-wider mb-2.5">
+                             為今夜取名，讓他與你隨行。 
+                        </p>
+                        <input type="text" id="cocktail-name-input" maxlength="12" placeholder="輸入你的名字或今夜稱呼..." 
+                            class="custom-input w-full px-4 py-2.5 rounded-xl text-center text-xs tracking-wider placeholder:text-slate-600 focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- 開始按鈕 -->
+                <button onclick="startQuiz()" class="gold-button w-full py-3.5 rounded-2xl font-serif-tc text-sm font-medium tracking-widest mt-auto">
+                    尋找專屬特調
+                </button>
+            </section>
+
+            <!-- 2. 測驗問題區 (Quiz Question Page) -->
+            <section id="page-quiz" class="hidden flex-col justify-between min-h-full py-2">
+                <div class="mb-6">
+                    <span id="question-tag" class="text-[10px] font-mono tracking-widest text-amber-400/70 uppercase mb-2 block">
+                        QUESTION 01
+                    </span>
+                    <h2 id="question-text" class="font-serif-tc text-base font-normal tracking-wide text-slate-100 leading-relaxed">
+                        載入中...
+                    </h2>
+                </div>
+
+                <!-- 5個選項容器 -->
+                <div id="options-container" class="space-y-3 my-auto">
+                    <!-- 動態渲染選項 -->
+                </div>
+
+                <div class="mt-6 text-center">
+                    <span class="text-[10px] text-slate-600 tracking-wider font-light">點擊選項將自動進入下一題</span>
+                </div>
+            </section>
+
+            <!-- 3. 結果頁 (Result Page) -->
+            <section id="page-result" class="hidden flex-col items-center justify-between min-h-full py-4 text-center">
+                <div class="w-full my-auto flex flex-col items-center">
+                    <!-- 品名顯示標題 (僅顯示品名: XXX 或 品名: 今夜的你) -->
+                    <h2 class="font-serif-tc text-2xl font-light tracking-widest text-amber-300 mb-3">
+                        品名：<span id="result-custom-name"></span>
+                    </h2>
+
+                    <!-- 調酒標語 -->
+                    <p id="result-tagline" class="font-serif-tc text-xs tracking-widest text-amber-400/80 mb-6">
+                        「」
+                    </p>
+
+                    <!-- 酒款圖片容器 (Image Container replacing SVG) -->
+                    <div id="result-img-container" class="w-44 h-44 mb-6 flex items-center justify-center relative">
+                        <!-- 圖片將動態插入 -->
+                    </div>
+
+                    <!-- 調酒成分列表 (Recipe) -->
+                    <div class="w-full glass-card rounded-2xl p-4 mb-4 text-left border border-amber-500/10">
+                        <h3 class="text-[10px] font-mono uppercase tracking-widest text-amber-400/60 mb-2">
+                            INGREDIENTS / 配方成分
+                        </h3>
+                        <p id="result-ingredients" class="text-xs text-slate-300 font-serif-tc leading-relaxed">
+                            --
+                        </p>
+                    </div>
+
+                    <!-- 性格解析說明 -->
+                    <div class="w-full glass-card rounded-2xl p-4 text-left border border-slate-800">
+                        <h3 class="text-[10px] font-mono uppercase tracking-widest text-slate-400 mb-1.5">
+                            SOUL PROFILE / 夜色靈魂
+                        </h3>
+                        <p id="result-description" class="text-xs text-slate-400 font-light leading-relaxed tracking-wide">
+                            --
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 底部按鈕區 -->
+                <div class="w-full space-y-2.5 mt-6">
+                    <button onclick="shareResult()" class="glass-card-interactive w-full py-3 rounded-xl font-serif-tc text-xs text-amber-200 tracking-widest flex items-center justify-center gap-2">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
+                        </svg>
+                        複製並分享結果
+                    </button>
+                    <button onclick="restartQuiz()" class="w-full py-2.5 text-xs text-slate-500 hover:text-slate-300 tracking-widest font-serif-tc transition-colors">
+                        再測一次
+                    </button>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // 題目與選項資料庫 (4題，每題5個選項)
+        const questions = [
+            {
+                tag: "QUESTION 01",
+                text: "漫步的風吹散迷惘，皎潔的月點明前方，飄落的葉帶走惆悵，未來的我_____",
+                options: [
+                    { label: "A", text: "財富自由", type: "A" },
+                    { label: "B", text: "運氣爆棚", type: "B" },
+                    { label: "C", text: "榜上有名", type: "C" },
+                    { label: "D", text: "事業有成", type: "D" },
+                    { label: "E", text: "全部都要", type: "E" }
+                ]
+            },
+            {
+                tag: "QUESTION 02",
+                text: "如果可以，現在就想______",
+                options: [
+                    { label: "A", text: "天降合法五千萬到我帳戶", type: "A" },
+                    { label: "B", text: "有個人能接住墜落的我", type: "B" },
+                    { label: "C", text: "來一場說走就走的旅行", type: "C" },
+                    { label: "D", text: "忘卻過往的苦痛與不甘", type: "D" },
+                    { label: "E", text: "想要得太多了不好說", type: "E" }
+                ]
+            },
+            {
+                tag: "QUESTION 03",
+                text: "當今夜染上_____",
+                options: [
+                    { label: "A", text: "純淨的白", type: "A" },
+                    { label: "B", text: "優雅的蔚藍", type: "B" },
+                    { label: "C", text: "夏日的黃橙", type: "C" },
+                    { label: "D", text: "低語的酒紅", type: "D" },
+                    { label: "E", text: "五顏六色", type: "E" }
+                ]
+            },
+            {
+                tag: "QUESTION 04",
+                text: "此刻的我_____",
+                options: [
+                    { label: "A", text: "想喝到爛醉", type: "A" },
+                    { label: "B", text: "與人徹夜暢談", type: "B" },
+                    { label: "C", text: "求學期all pass", type: "C" },
+                    { label: "D", text: "希望睡個好覺", type: "D" },
+                    { label: "E", text: "想不透，看不清", type: "E" }
+                ]
+            }
+        ];
+
+        // 5 種調酒結果資料 (已替換為高質感微醺酒照圖片網址，可直接替換成您在 ImgBB / Upload.cc 的網址)
+        const results = {
+            A: {
+                tagline: "「渴望極致自由，以最清醒俐落的姿態擺脫世俗約束。」",
+                ingredients: "極地伏特加 (Vodka)、金牌龍舌蘭 (Tequila)、新鮮檸檬汁、海鹽",
+                description: "你渴望擺脫所有束縛，給自己一場徹底的解放。你討厭被框架限制，渴望說走就走的果斷與財富自由帶來的底氣。這杯酒帶著強烈的直率感，正如你內心最純粹的渴望。",
+                imgUrl: "https://upload.cc/i1/2026/09/18/URziVZ.jpg"
+            },
+            B: {
+                tagline: "「溫柔包容，在疲憊的深夜裡渴望一次深沉的被接住與治癒。」",
+                ingredients: "熟成波本威士忌 (Bourbon)、野生蜂蜜、溫熱蘋果汁、肉桂棒",
+                description: "堅強太久了，今夜你只是希望有個安全的港灣能接住你的脆弱。你期盼被理解、被呵護，能好好睡個無憂的甜覺。這杯帶著微溫與蜂蜜香氣的特調，能撫平你內心所有的疲憊。",
+                imgUrl: "https://upload.cc/i1/2026/09/18/VHXMjD.jpeg"
+            },
+            C: {
+                tagline: "「幸運爆棚，讓金色氣泡與豐沛機遇在夜空中燦爛綻放。」",
+                ingredients: "倫敦乾琴酒 (Gin)、壓榨柑橘汁、氣泡香檳、黃金橙皮",
+                description: "你懷抱著對生活的無限期待與野心，渴望好運爆棚、財富天降、事業順遂。你的心靈充滿熱情與亮點，充滿了躍動的能量。這杯燦爛的氣泡特調，預祝你理想與願望一躍成真。",
+                imgUrl: "https://upload.cc/i1/2026/09/18/eg8yDR.jpeg"
+            },
+            D: {
+                tagline: "「深邃雋永，將過往苦痛化為智慧，穩健地朝目標踏實前行。」",
+                ingredients: "精練黑蘭姆酒 (Dark Rum)、安格仕苦精、冷萃咖啡液、紅糖",
+                description: "你渴望榜上有名、追求卓越，同時也默默承受著過往的不甘與磨練。你的堅韌讓你在夜裡更加沉穩。這杯帶有濃郁咖啡與焦糖香氣的酒，獻給一直在路上努力不懈、終將耀眼的你。",
+                imgUrl: "https://upload.cc/i1/2026/09/18/uSUsdJ.jpg"
+            },
+            E: {
+                tagline: "「絢爛複雜，不願被定義，包容生活裡所有的酸甜苦辣。」",
+                ingredients: "義大利金巴利 (Campari)、紅威末酒 (Red Vermouth)、黑莓香甜酒、蘇打水",
+                description: "你的人生態度是「全部都要」！你擁有極具層次與魅力的靈魂，即便當下有許許多多的想不透與看不清，你也樂於擁抱這份神秘與多變。這杯色彩斑斕的特調，正如你精采絕倫的靈魂世界。",
+                imgUrl: "[img]https://upload.cc/i1/2026/09/18/URziVZ.jpg[/img]"
+            }
+        };
+
+        // 狀態變數
+        let currentQuestion = 0;
+        let answers = []; // 紀錄每題選擇
+        let customCocktailName = "";
+
+        // DOM 元素引用
+        const pageCover = document.getElementById('page-cover');
+        const pageQuiz = document.getElementById('page-quiz');
+        const pageResult = document.getElementById('page-result');
+        const quizHeader = document.getElementById('quiz-header');
+
+        const questionTag = document.getElementById('question-tag');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const backText = document.getElementById('back-text');
+        const nameInput = document.getElementById('cocktail-name-input');
+
+        // 開始測驗
+        function startQuiz() {
+            customCocktailName = nameInput.value.trim();
+            pageCover.classList.add('hidden');
+            pageQuiz.classList.remove('hidden');
+            pageQuiz.classList.add('flex');
+            quizHeader.classList.remove('hidden');
+            
+            currentQuestion = 0;
+            answers = [];
+            renderQuestion();
+        }
+
+        // 渲染當前題目
+        function renderQuestion() {
+            const q = questions[currentQuestion];
+            
+            // 更新進度與返回按鈕文字
+            progressText.innerText = `${currentQuestion + 1}/4`;
+            progressBar.style.width = `${((currentQuestion + 1) / 4) * 100}%`;
+            backText.innerText = currentQuestion === 0 ? "返回封面" : "上一題";
+
+            questionTag.innerText = q.tag;
+            questionText.innerText = q.text;
+
+            optionsContainer.innerHTML = '';
+
+            // 檢查是否已選擇過
+            const previousAnswer = answers[currentQuestion];
+
+            q.options.forEach((opt) => {
+                const isSelected = previousAnswer === opt.type;
+                const btn = document.createElement('button');
+                btn.className = `glass-card-interactive w-full p-3.5 rounded-xl flex items-center gap-3 text-left transition-all ${isSelected ? 'selected' : ''}`;
+                btn.onclick = () => selectOption(opt.type);
+
+                btn.innerHTML = `
+                    <span class="w-6 h-6 rounded-full border border-amber-500/30 flex items-center justify-center text-[10px] font-mono text-amber-300/80 flex-shrink-0">
+                        ${opt.label}
+                    </span>
+                    <span class="text-xs text-slate-200 font-light tracking-wide leading-relaxed">
+                        ${opt.text}
+                    </span>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        // 選擇選項
+        function selectOption(type) {
+            answers[currentQuestion] = type;
+
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                setTimeout(() => {
+                    renderQuestion();
+                }, 180);
+            } else {
+                setTimeout(() => {
+                    showResult();
+                }, 200);
+            }
+        }
+
+        // 返回上一題或退回封面
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+            } else {
+                // 退回封面
+                pageQuiz.classList.add('hidden');
+                pageQuiz.classList.remove('flex');
+                quizHeader.classList.add('hidden');
+                pageCover.classList.remove('hidden');
+            }
+        }
+
+        // 計算結果並顯示
+        function showResult() {
+            quizHeader.classList.add('hidden');
+            pageQuiz.classList.add('hidden');
+            pageQuiz.classList.remove('flex');
+
+            // 統計高頻類型
+            const counts = { A: 0, B: 0, C: 0, D: 0, E: 0 };
+            answers.forEach(type => {
+                if (counts[type] !== undefined) counts[type]++;
+            });
+
+            // 找出最高分
+            let maxType = 'A';
+            let maxCount = -1;
+            for (const [type, count] of Object.entries(counts)) {
+                if (count > maxCount) {
+                    maxCount = count;
+                    maxType = type;
+                }
+            }
+
+            const res = results[maxType];
+
+            // 處理品名顯示：有打字顯示打字內容，沒打字顯示「今夜的你」
+            const customNameText = document.getElementById('result-custom-name');
+            if (customCocktailName) {
+                customNameText.innerText = customCocktailName;
+            } else {
+                customNameText.innerText = "今夜的你";
+            }
+
+            document.getElementById('result-tagline').innerText = res.tagline;
+            document.getElementById('result-ingredients').innerText = res.ingredients;
+            document.getElementById('result-description').innerText = res.description;
+
+            // 動態生成圓角圖片 + 暗角微光遮罩
+            document.getElementById('result-img-container').innerHTML = `
+                <div class="relative w-40 h-40 rounded-2xl overflow-hidden border border-amber-500/25 shadow-xl shadow-black/80 group">
+                    <img src="${res.imgUrl}" 
+                         alt="深夜特調" 
+                         onerror="this.onerror=null; this.src='https://placehold.co/400x400/121621/D4AF37?text=Cocktail';"
+                         class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#06070a] via-transparent to-transparent opacity-60"></div>
+                </div>
+            `;
+
+            pageResult.classList.remove('hidden');
+            pageResult.classList.add('flex');
+        }
+
+        // 重新測驗
+        function restartQuiz() {
+            pageResult.classList.add('hidden');
+            pageResult.classList.remove('flex');
+            pageCover.classList.remove('hidden');
+            nameInput.value = "";
+            customCocktailName = "";
+        }
+
+        // 分享結果
+        function shareResult() {
+            const displayName = customCocktailName ? customCocktailName : "今夜的你";
+            const shareText = `我在《夜色微醺》心理測驗中，測出的深夜靈魂品名是：【${displayName}】！來調配你的今夜專屬微醺吧。`;
+
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert('測驗結果已複製到剪貼簿，可以分享給朋友囉！');
+                }).catch(() => {
+                    alert(shareText);
+                });
+            } else {
+                alert(shareText);
+            }
+        }
+    </script>
+</body>
+</html>

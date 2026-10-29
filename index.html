@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test No.100 互動區（測試版）</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="color.css">
+</head>
+
+<body>
+    <header>
+        <button id="btn-open-info" class="rule">
+            <i class="fa-solid fa-circle-info text-lg"></i>
+        </button>
+        <button class="menu">&#9776;</button>
+
+        <nav class="items">
+            <button class="remove">&#10005;</button>
+            <ul>
+                <li><a href="index.html">首頁</a></li>
+                <li><a href="">今天喝什麼</a></li>
+                <li><a href="shotgame.html">挑戰shot</a></li>
+                <li><a href="#introduction">近期活動</a></li>
+                <li><a href="#about">介紹</a></li>
+            </ul>
+        </nav>
+
+        <h1>Test No.100</h1>
+        <nav class="bigmenu">
+            <ul>
+                <li><a href="index.html">首頁</a></li>
+                <li><a href="">今天喝什麼</a></li>
+                <li><a href="shotgame.html">挑戰shot</a></li>
+                <li><a href="#introduction">近期活動</a></li>
+                <li><a href="#about">介紹</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+
+        <section class="firstsee">
+        
+            <!--裝飾-->
+        <div class="relative"> 
+            
+            <img src="嚇人鬼.png" class="woow-decoration right-5 top-40" alt="萬聖節裝飾">
+            <img src="魔法鬼.png" class="spooky-decoration left-20 top-60" alt="萬聖節裝飾">
+            <img src="嚇人鬼.png" class="wow-decoration left-10 top-[100px]" alt="萬聖節裝飾">
+            <img src="好奇鬼.png" class="oh-decoration right-10 top-[420px]" alt="萬聖節裝飾">
+            <img src="擔憂鬼.png" class="worring-decoration right-[150px] top-[750px]" alt="萬聖節裝飾">
+            
+        </div>
+
+        <div class="chatgroup">
+
+  <!-- 1. 頂部老闆公告區 -->
+            <div class="bar">
+                <span class="announce-badge">📢</span>
+                <span class="announce-text">請先點擊右上角閱讀相關規定</span>
+            </div>
+                <!-- 老闆訊息（左上 / 特殊樣式） -->
+            <div class="bossmessage">
+                <!-- <img src="boss-avatar.jpg" class="avatar" alt="今日主吧"> -->
+                <div class="messagecontent">
+                    <div class="user-name">主吧</div>
+                        <div class="bubble">每週五固定女生半價</div>
+                </div>
+            </div>
+            <div class="employee">
+                        <!-- <img src="cus-avatar.jpg" class="avatar" alt="今日吧備"> -->
+                    <div class="messagecontent">
+                        <div class="user-name">吧備</div>
+                            <div class="bubble">歡迎喝酒聊天</div>
+                    </div>
+            </div>
+
+  <!-- 2. 聊天訊息展示區 -->
+            <div class="chat-body">
+
+    <!-- 其他客人訊息（靠左下） -->
+                <div class="otherwords">
+                    <!-- <img src="guest1-avatar.jpg" class="avatar" alt="客人頭貼"> -->
+                    <div class="messagecontent">
+                        <div class="user-name">匿名</div>
+                            <div class="bubble">.______.</div>
+                </div>
+                </div>
+<!-- 自己發送的訊息（靠右下） -->
+                <div class="mywords">
+                    <div class="talking">
+                        <div class="bubble">.______.</div>
+                    </div>
+                </div>
+            </div>
+
+            
+  <!-- 3. 下方輸入框區 -->
+        <div class="chat-footer">
+            <input class="remywords" placeholder="聊聊天......" type="text">
+            <button class="sendbutton">送出</button>
+        </div>
+        
+        </section>
+
+        <section id="introduction" class="introduction">
+            <div class="animate-fade-in-up space-y-3 p-6t">  
+                <h2>近期活動</h2>
+                <p>10/31百鬼夜行！</p>
+                <p>分享鬼故事、穿著特殊裝扮送shot×1</p>
+                <p>近期有老闆特調「萬應茶」、限量特製甜品</p>
+                <p>歡迎來Test同樂</p>
+            </div> 
+        </section>
+
+        <section id="about" class="about">
+            <div class="animate-fade-in-up space-y-3 p-6">
+                <h2>關於Test No.100</h2>
+                <p>就像家一樣的無酒單酒吧</p>
+                <div class="about-image">
+
+                    <div class="image-container" data-title="簡介" data-desc="營業時間：20:00 ～ 02:00<br>低消一杯飲品<br>客製化特調$300/杯<br>可帶外食">
+                        <img src="紅底logo.png" alt="酒吧圖片" class="logopng touch">
+                            <div class="pngtalk">
+                                <p>營業時間：20:00 ～ 02:00<br>低消一杯飲品<br>特調$300/杯<br>可帶外食</p>
+                            </div>
+                    </div>
+                    <div class="image-container" data-title="點酒方式" data-desc="在這裡，你可以客製化你想要的味道<br><a href='alcohol.html' class='model-link'>找尋今夜特調</a>">
+                        <img src="氣泡酒.png" alt="酒吧圖片" class="winepng touch">
+                            <div class="pngtalk">
+                                <p>如何點酒：<br>向bartender描述偏好或不喜歡的味道<br>如：蘋果味、不要太甜、加一點酸<br>經典調酒如長島冰茶、馬丁尼等也都可以放心點</p>
+                                <div class="mochitalk">
+                                    <p>（麻糬os：小黃瓜+汽泡 榮登我心第一名）</p>
+                                </div>
+                                <a href="">找尋今夜特調</a>
+                            </div>
+                    </div>
+
+                    <div class="image-container" data-title="高樓大shot（$400/次）挑戰規則" data-desc="15內喝完整杯即挑戰成功<br>獎勵全場一杯shot<br>失敗需接受神秘懲罰<br><a href='shotgame.html' class='model-link'>模擬挑戰</a>">
+                        <img src="Shot.png" alt="酒吧圖片" class="shotrpng touch">
+                            <div class="pngtalk">
+                                <p>高樓大shot（$400/次）挑戰規則：<br>15內喝完整杯即挑戰成功<br>獎勵全場一杯shot<br>失敗需接受神秘懲罰</p>
+                                <a href="shotgame.html">模擬挑戰</a>
+                            </div>
+                    </div>
+
+                    <div class="image-container" data-title="人類補完計畫" data-desc="自帶酒精以外的材料<br>（酒精類會收開瓶費）<br>bartender會特製一杯調酒<br>$250/杯">
+                        <img src="魔法藥劑.png" alt="酒吧圖片" class="humanpng touch">
+                            <div class="pngtalk">
+                                <p>人類補完計畫：自帶酒精以外的材料<br>（酒精類會收開瓶費）<br>bartender會特製一杯調酒　　$250/杯</p>
+                                <div class="watalk">
+                                    <p>（目前最特殊的風味是薑母鴨）</p>
+                                </div>
+                            </div>  
+                    </div>
+                    
+                    <div class="image-container" data-title="轉盤$100/次" data-desc="獎池：<br>高樓大shot乙杯<br>shot盤乙盤<br>$300調飲乙杯<br>汽泡酒乙杯">
+                        <img src="問號轉盤.png" alt="酒吧圖片" class="playpng touch">
+                            <div class="playname">
+                                <p>轉盤$100/次</p>
+                            </div>
+                            <div class="pngtalk">
+                                <p>高樓大shot乙杯<br>shot盤乙盤<br>$300調飲乙杯<br>汽泡酒乙杯</p>
+                            </div>
+                    </div>
+                    
+                    <div class="image-container" data-title="?" data-desc="敬請期待">
+                        <img src="命運機會.png" alt="酒吧圖片" class="chapng touch">
+                            <div class="pngtalk">
+                                <p>？</p>
+                                <div class="qutalk">
+                                    <p>店內常有其他小活動，關注IG，敬請期待</p>
+                                </div>
+                            </div>
+                    </div>
+                
+                </div>
+            </div>
+        </section>
+    
+    </main>
+
+    <footer class="rightname">
+        <p>-製作人：麻糬-　　&copy;  2026 版權所有</p>
+        <div class="social-row">
+            <p>
+                Test IG：
+                <a href="https://www.instagram.com/testno100?utm_source=ig_web_button_share_sheet&dlrf=ZDNlZDc0MzIxNw==" target="_blank" class="social-link">@testno100</a>
+            </p>
+            <p>
+                有問題找麻糬（Threads）：
+                <a href="https://www.threads.com/@mochicat_2023?igshid=NTc4MTIwNjQ2YQ==" target="_blank" class="social-link">@mochi</a>
+            </p>
+        </div>
+    </footer>
+
+    <div id="info-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-stone-900/60 backdrop-blur-sm p-4">
+        <div class="w-full max-w-sm rounded-3xl p-6 bg-stone-900/85 border border-amber-900/40 shadow-2xl relative flex flex-col backdrop-blur-md">
+          <div class="flex justify-between items-center mb-4 pb-3 border-b border-amber-500/20">
+            <h3 class="text-base font-bold text-amber-200/90 tracking-wide flex items-center gap-2">
+                <i class="fa-solid fa-wine-glass text-rose-400"></i> 聊天室及其他規範說明</h3>
+                <button id="btn-close-info" class="text-stone-400 hover:text-amber-200 text-lg cursor-pointer transition-colors p-1">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="space-y-3 text-xs text-gray-200 leading-relaxed font-medium">
+                <p>重要聲明：此網站並非Test No.100正式官網，為麻糬學習用測試工具，僅提供娛樂，勿作其他用途</p>
+                <p>1. 禁止任何人身攻擊、羞辱詞、髒話等不雅字眼。</p>
+                <p>2. 禁止發布廣告、垃圾訊息等不當內容。</p>
+                <p>3. 尊重他人，保持聊天室氛圍和諧。</p>
+                <p>4. 若有問題，請聯繫管理員麻糬。</p>
+                <p>5. 所有訊息將在隔日凌晨四點刷新。</p>
+                <p>6.「今天喝什麼」、「找尋今夜特調」功能因技術問題暫不開放，請見諒。</p>
+                <p>7. 感謝Test No.100提供相關素材。</p>
+            </div>
+            <button id="btn-close-info-bottom" class="mt-6 w-full py-3 bg-amber-800/80 hover:bg-amber-700/80 text-amber-100 font-bold rounded-2xl text-xs cursor-pointer shadow-md border border-amber-600/30 transition-all active:scale-[0.98]">
+                關閉
+            </button>
+        </div>
+    </div>
+
+    <div id="talkingmodel" class="model-over">
+        <div class="model-content">
+            <button class="model-close" id="modelClose">&times;</button>
+            <div class="model-body">
+                <img id="modelIMG" src="" alt="文字說明">
+                <h3 id="modeltitle">標題</h3>
+                <p id="modelDesc">詳細文字</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="door.js"></script>
+</body>
+</html>
